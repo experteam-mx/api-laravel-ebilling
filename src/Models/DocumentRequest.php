@@ -7,30 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 /**
- * Models/DocumentFile
+ * Models/DocumentRequest
  *
  * @property int $id
  * @property int $document_id
- * @property string $file_name
- * @property string $path
- * @property string $type
  * @property string $service
  * @property array $times
+ * @property string $observation
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * @method static Builder|DocumentFile whereDocumentId($value)
- * @method static Builder|DocumentFile whereService($value)
- * @method static Builder|DocumentFile whereType($value)
+ * @method static Builder|DocumentRequest whereDocumentId($value)
+ * @method static Builder|DocumentRequest whereService($value)
+ * @method static Builder|DocumentRequest whereType($value)
+ * @method static Builder|DocumentRequest whereObservation($value)
  */
-class DocumentFile extends Model
+class DocumentRequest extends Model
 {
     protected $fillable = [
         'document_id',
-        'file_name',
-        'path',
-        'type',
         'service',
-        'times'
+        'times',
+        'observation',
     ];
 
     protected $casts = [

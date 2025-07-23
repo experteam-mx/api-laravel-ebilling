@@ -2,13 +2,13 @@
 
 namespace Experteam\ApiLaravelEBilling\Facades;
 
-use Experteam\ApiLaravelEBilling\Utils\DocumentFileManager;
+use Experteam\ApiLaravelEBilling\Utils\DocumentRequestManager;
 use Illuminate\Support\Facades\Facade;
 
-class DocumentFileManagerFacade extends Facade
+class DocumentRequestManagerFacade extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return DocumentFileManager::class;
+        return DocumentRequestManager::class;
     }
 }
