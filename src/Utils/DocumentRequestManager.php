@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Experteam\ApiLaravelEBilling\Models\DocumentRequest;
+use Illuminate\Database\Eloquent\Collection;
 
 class DocumentRequestManager
 {
@@ -28,5 +29,15 @@ class DocumentRequestManager
             'times' => [Carbon::now()],
             'observation' => $observation,
         ]);
+    }
+
+    /**
+     * Get all document requests for a specific document ID
+     */
+    public static function getByDocumentId(int $documentId): Collection
+    {
+        return DocumentRequest::where('document_id', $documentId)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }

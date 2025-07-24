@@ -27,7 +27,7 @@
         "Experteam\\ApiLaravelEBilling\\ApiLaravelEBillingServiceProvider"
       ],
       "aliases": {
-        "DocumentFileManager": "Experteam\\ApiLaravelEBilling\\Facades\\DocumentFileManagerFacade"
+        "DocumentRequestManager": "Experteam\\ApiLaravelEBilling\\Facades\\DocumentRequestManagerFacade"
       }
     }
   },
@@ -37,6 +37,7 @@
     "ext-json": "*",
     "illuminate/database": "^9.0 || ^10.0 || ^11.0",
     "illuminate/support": "^9.0 || ^10.0 || ^11.0",
+    "shalvah/laravel-jsend": "^2.1",
     "ext-simplexml": "*"
   }
 }

@@ -4,3 +4,5 @@
 /.cache/
 /.config/
 /.local/
+docker-compose.yml
+/.gitconfig
