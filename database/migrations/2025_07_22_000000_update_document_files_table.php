@@ -16,6 +16,7 @@ class UpdateDocumentFilesTable extends Migration
         Schema::create('document_requests', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('document_id')->index();
+            $table->string('document_status_code');
             $table->string('service');
             $table->json('times')->nullable();
             $table->string('observation')->nullable();

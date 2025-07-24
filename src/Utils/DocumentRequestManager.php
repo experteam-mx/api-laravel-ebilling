@@ -10,7 +10,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class DocumentRequestManager
 {
-    public static function store(int $documentId, string $service, ?string $observation = null)
+    public const DOCUMENT_STATUS_CODE_PROCESSING = 'Processing';
+    public const DOCUMENT_STATUS_CODE_COMPLETE = 'Complete';
+    public const DOCUMENT_STATUS_CODE_CANCELLED = 'Cancelled';
+    public const DOCUMENT_STATUS_CODE_WITH_ERRORS = 'WithErros';
+    public static function store(int $documentId, string $service, string $documentStatusCode, ?string $observation = null)
     {
         $documentRequest = DocumentRequest::where('document_id', $documentId)
             ->orderBy('created_at', 'desc')
@@ -25,6 +29,7 @@ class DocumentRequestManager
 
         return DocumentRequest::create([
             'document_id' => $documentId,
+            'document_status_code' => $documentStatusCode,
             'service' => $service,
             'times' => [Carbon::now()],
             'observation' => $observation,

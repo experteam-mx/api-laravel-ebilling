@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
  *
  * @property int $id
  * @property int $document_id
+ * @property string $document_status_code
  * @property string $service
  * @property array $times
  * @property string $observation
@@ -25,6 +26,7 @@ class DocumentRequest extends Model
 {
     protected $fillable = [
         'document_id',
+        'document_status_code',
         'service',
         'times',
         'observation',
