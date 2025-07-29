@@ -13,4 +13,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Document Request routes
-Route::get('/document-requests/{documentId}', [DocumentRequestController::class, 'getByDocumentId']);
+Route::get('/document-requests/{documentId}', [DocumentRequestController::class, 'getByDocumentId'])
+    ->name('document-requests');
