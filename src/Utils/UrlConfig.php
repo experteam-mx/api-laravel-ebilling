@@ -21,7 +21,7 @@ class UrlConfig
         $urls = config('experteam-billing.urls');
 
         if ($errorCount >= config('experteam-billing.max_fails')) {
-            $index = (int)Redis::get(config('experteam-billing.redis.active_index'));
+            $index = (int)Redis::get(config('experteam-billing.redis.active_index')) + 1;
 
             if ($index >= count($urls))
                 $index = 0;
