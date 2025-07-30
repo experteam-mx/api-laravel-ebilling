@@ -10,7 +10,7 @@ class UrlConfig
 
     public function getActiveUrl(): mixed
     {
-        $index = config('experteam-billing.redis.active_index');
+        $index = (int)(Redis::get(config('experteam-billing.redis.active_index')) ?? 0);
         $urls = config('experteam-billing.urls');
         return $urls[$index];
     }
