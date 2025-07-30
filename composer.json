@@ -27,7 +27,8 @@
         "Experteam\\ApiLaravelEBilling\\ApiLaravelEBillingServiceProvider"
       ],
       "aliases": {
-        "DocumentRequestManager": "Experteam\\ApiLaravelEBilling\\Facades\\DocumentRequestManagerFacade"
+        "DocumentRequestManager": "Experteam\\ApiLaravelEBilling\\Facades\\DocumentRequestManagerFacade",
+        "UrlConfig": "Experteam\\ApiLaravelEBilling\\Facades\\UrlConfigFacade"
       }
     }
   },
