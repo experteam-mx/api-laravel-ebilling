@@ -20,6 +20,10 @@ class DocumentRequestManager
             ->orderBy('created_at', 'desc')
             ->first();
 
+        if (!is_null($observation) && strlen($observation) > 200) {
+            $observation = substr($observation, 0, 197) . '...';
+        }
+
         if ($documentRequest?->service == $service && $documentRequest?->observation == $observation) {
             $documentRequest->update([
                 'times' => [...$documentRequest->times, Carbon::now()],
