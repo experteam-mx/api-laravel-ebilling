@@ -36,8 +36,18 @@ class UrlConfig
         return (int)Redis::get(config('experteam-billing.redis.errors_count'));
     }
 
-    public function urlChanged(): int
+    public function urlChanged(): bool
     {
         return $this->changeUrl;
+    }
+
+    public function setUrlChanged(bool $changeUrl): void
+    {
+        $this->changeUrl = $changeUrl;
+    }
+
+    public function setErrorsCount(int $number)
+    {
+        return Redis::set(config('experteam-billing.redis.errors_count'), $number);
     }
 }
