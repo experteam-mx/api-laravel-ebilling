@@ -18,5 +18,23 @@ class ApiLaravelEBillingServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+
+        // Register routes
+        $this->registerRoutes();
+    }
+
+    protected function registerRoutes(): void
+    {
+        Route::group($this->routeConfiguration(), function () {
+            $this->loadRoutesFrom(__DIR__ . '/routes.php');
+        });
+    }
+
+    protected function routeConfiguration(): array
+    {
+        return [
+            'prefix' => 'api',
+            'middleware' => ['api'],
+        ];
     }
 }
