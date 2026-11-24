@@ -24,7 +24,8 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Experteam\\ApiLaravelEBilling\\ApiLaravelEBillingServiceProvider"
+        "Experteam\\ApiLaravelEBilling\\ApiLaravelEBillingServiceProvider",
+        "Experteam\\ApiLaravelEBilling\\Saga\\SagaServiceProvider"
       ],
       "aliases": {
         "DocumentRequestManager": "Experteam\\ApiLaravelEBilling\\Facades\\DocumentRequestManagerFacade"
@@ -37,6 +38,7 @@
     "ext-json": "*",
     "illuminate/database": "^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
     "illuminate/support": "^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
+    "illuminate/redis": "^9.0 || ^10.0 || ^11.0 || ^12.0 || ^13.0",
     "shalvah/laravel-jsend": "^2.1",
     "ext-simplexml": "*"
   }
