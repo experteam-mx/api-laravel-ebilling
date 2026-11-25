@@ -130,10 +130,12 @@ class RedisStreamEventBus
 
         if ($this->isPhpRedis($client)) {
             $client->xAck($stream, $group, [$messageId]);
+            $client->xDel($stream, [$messageId]);
             return;
         }
 
         $this->executeRaw(['XACK', $stream, $group, $messageId]);
+        $this->executeRaw(['XDEL', $stream, $messageId]);
     }
 
     private function connection()
