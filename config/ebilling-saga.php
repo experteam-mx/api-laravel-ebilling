@@ -1,12 +1,10 @@
 <?php
 
 return [
-    // This API B instance is connected to exactly one country request stream.
     'redis_connection' => env('EBILLING_REDIS_CONNECTION', 'stream_compute'),
     'redis_prefix' => env('EBILLING_REDIS_STREAM_PREFIX', 'saga:invoices:documents:'),
     'request_stream' => env('EBILLING_REQUESTS_STREAM', 'requested:ec'),
     'results_stream' => env('EBILLING_RESULTS_STREAM', 'completed'),
-    'consumer_group' => env('EBILLING_CONSUMER_GROUP', 'ebilling-workers'),
 
     'consumer' => [
         'count' => (int) env('EBILLING_CONSUMER_COUNT', 10),
