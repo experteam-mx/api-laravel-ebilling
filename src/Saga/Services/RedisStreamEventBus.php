@@ -66,6 +66,7 @@ class RedisStreamEventBus
         $entries = [];
         foreach ($response as $streamKey => $messages) {
             foreach ($messages as $messageId => $fields) {
+                $fields = array_is_list($fields) ? $fields[0] : $fields;
                 $this->client()->xDel($streamKey, [$messageId]);
                 $data = $fields['message'] ?? null;
 
