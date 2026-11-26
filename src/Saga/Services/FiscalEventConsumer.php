@@ -48,7 +48,6 @@ class FiscalEventConsumer
                         'message_id' => $message['id'],
                         'error' => $exception->getMessage(),
                     ]);
-                    $this->eventBus->acknowledge($stream, $group, $message['id']);
                     continue;
                 } catch (Throwable $exception) {
                     Log::error('Unable to process eBilling event.', [
@@ -57,8 +56,6 @@ class FiscalEventConsumer
                     ]);
                     continue;
                 }
-
-                $this->eventBus->acknowledge($stream, $group, $message['id']);
             }
         } while (! $once);
     }

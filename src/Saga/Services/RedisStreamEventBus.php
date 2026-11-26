@@ -2,6 +2,7 @@
 
 namespace Experteam\ApiLaravelEBilling\Saga\Services;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 use RuntimeException;
 use Throwable;
@@ -69,7 +70,11 @@ class RedisStreamEventBus
             : [];
 
         if ($claimedMessages !== []) {
-            return array_slice($claimedMessages, 0, $count);
+            return $this->deleteBeforeProcessing(
+                $stream,
+                $group,
+                array_slice($claimedMessages, 0, $count),
+            );
         }
 
         $newMessagesResponse = $client->xReadGroup(
@@ -80,27 +85,46 @@ class RedisStreamEventBus
             $blockMs,
         );
 
-        return $this->normalizeReadResponse($newMessagesResponse);
-    }
-
-    public function acknowledge(string $stream, string $group, string $messageId): void
-    {
-        $client = $this->client();
-        $stream = $this->streamKey($stream);
-        $acknowledged = $client->xAck(
+        return $this->deleteBeforeProcessing(
             $stream,
             $group,
-            [$messageId],
+            $this->normalizeReadResponse($newMessagesResponse),
         );
+    }
 
-        if ((int) $acknowledged !== 1) {
-            throw new RuntimeException("Redis did not acknowledge stream entry {$messageId}.");
+    /**
+     * @param array<int, array{id:string,data:string}> $messages
+     * @return array<int, array{id:string,data:string}>
+     */
+    private function deleteBeforeProcessing(string $stream, string $group, array $messages): array
+    {
+        $client = $this->client();
+        $processable = [];
+
+        foreach ($messages as $message) {
+            try {
+                $acknowledged = $client->xAck($stream, $group, [$message['id']]);
+                if ((int) $acknowledged !== 1) {
+                    throw new RuntimeException("Redis did not acknowledge stream entry {$message['id']}.");
+                }
+
+                $deleted = $client->xDel($stream, [$message['id']]);
+                if ((int) $deleted !== 1) {
+                    throw new RuntimeException("Redis did not delete stream entry {$message['id']}.");
+                }
+
+                $processable[] = $message;
+            } catch (Throwable $exception) {
+                Log::warning('Unable to delete eBilling stream entry before processing; skipping it.', [
+                    'stream' => $stream,
+                    'group' => $group,
+                    'message_id' => $message['id'],
+                    'exception' => $exception,
+                ]);
+            }
         }
 
-        $deleted = $client->xDel($stream, [$messageId]);
-        if ((int) $deleted !== 1) {
-            throw new RuntimeException("Redis did not delete stream entry {$messageId}.");
-        }
+        return $processable;
     }
 
     private function client()

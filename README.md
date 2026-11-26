@@ -173,7 +173,7 @@ Ejecutar el consumidor como proceso permanente:
 php artisan ebilling:saga:consume
 ```
 
-El consumidor crea `EBILLING_CONSUMER_GROUP` al iniciar (conservando los mensajes existentes), usa un nombre de consumidor basado en host y PID y confirma y borra cada mensaje del stream solo después de procesarlo. Los mensajes con errores técnicos quedan pendientes y se reclaman después de `EBILLING_PENDING_IDLE_MS`; se puede fijar el nombre con `--consumer=nombre`.
+El consumidor crea `EBILLING_CONSUMER_GROUP` al iniciar (conservando los mensajes existentes) y usa un nombre basado en host y PID; se puede fijar con `--consumer=nombre`. Cada mensaje se confirma y se borra inmediatamente después de leerlo y antes de llamar al handler. Si Redis no confirma el borrado, el mensaje se omite y se registra una advertencia. Como el borrado ocurre antes del procesamiento, un error técnico o reinicio durante el handler pierde ese mensaje y no se reintenta; este comportamiento prioriza evitar que otra instancia procese el mismo mensaje.
 
 Ejecutar el publicador del Outbox mediante Scheduler:
 
@@ -185,7 +185,7 @@ Schedule::command('ebilling:saga:publish-outbox')
     ->withoutOverlapping();
 ```
 
-El consumidor guarda el resultado en el Outbox antes de confirmar el mensaje de entrada. El publicador envía ese resultado al stream común. Si Redis acepta un resultado y el proceso se interrumpe antes de marcarlo como publicado, puede existir una entrega duplicada; API A debe deduplicar respuestas por `event_id`.
+El consumidor guarda el resultado en el Outbox después de borrar el mensaje de entrada. El publicador envía ese resultado al stream común. Si Redis acepta un resultado y el proceso se interrumpe antes de marcarlo como publicado, puede existir una entrega duplicada; API A debe deduplicar respuestas por `event_id`.
 
 ### License
 [MIT license](https://opensource.org/licenses/MIT).
