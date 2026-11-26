@@ -7,6 +7,7 @@ return [
     'results_stream' => env('EBILLING_RESULTS_STREAM', 'completed'),
 
     'consumer' => [
+        'group' => env('EBILLING_CONSUMER_GROUP', 'ebilling-workers'),
         'count' => (int) env('EBILLING_CONSUMER_COUNT', 10),
         'block_ms' => (int) env('EBILLING_CONSUMER_BLOCK_MS', 5000),
         'pending_idle_ms' => (int) env('EBILLING_PENDING_IDLE_MS', 60000),

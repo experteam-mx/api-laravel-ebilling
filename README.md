@@ -173,6 +173,8 @@ Ejecutar el consumidor como proceso permanente:
 php artisan ebilling:saga:consume
 ```
 
+El consumidor crea `EBILLING_CONSUMER_GROUP` al iniciar (conservando los mensajes existentes), usa un nombre de consumidor basado en host y PID y confirma y borra cada mensaje del stream solo después de procesarlo. Los mensajes con errores técnicos quedan pendientes y se reclaman después de `EBILLING_PENDING_IDLE_MS`; se puede fijar el nombre con `--consumer=nombre`.
+
 Ejecutar el publicador del Outbox mediante Scheduler:
 
 ```php
@@ -187,4 +189,3 @@ El consumidor guarda el resultado en el Outbox antes de confirmar el mensaje de 
 
 ### License
 [MIT license](https://opensource.org/licenses/MIT).
-
